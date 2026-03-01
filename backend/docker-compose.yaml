@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: service_hub_user
+      POSTGRES_PASSWORD: 23458945
+      POSTGRES_DB: service_hub_db
+    ports:
+        - "5432:5432"
+    volumes:
+        - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
