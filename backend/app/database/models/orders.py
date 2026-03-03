@@ -1,6 +1,4 @@
-import uuid
-from sqlalchemy import String, Text, DateTime, ForeignKey, func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import String, Text, DateTime, ForeignKey, func, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -9,14 +7,14 @@ from .base import Base
 class Order(Base):
     __tablename__ = "orders"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    order_id: Mapped[int] = mapped_column(
+        Integer,
+        index=True,
         primary_key=True,
-        default=uuid.uuid4
     )
 
-    customer_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("customers.id")
+    customer_id: Mapped[int] = mapped_column(
+        ForeignKey("customers.customer_id")
     )
 
     description: Mapped[str] = mapped_column(Text)

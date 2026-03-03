@@ -1,19 +1,17 @@
-import uuid
 
 from .base import Base
 
-from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+
+    user_id: Mapped[int] = mapped_column(
+        Integer,
+        index=True,
         primary_key=True,
-        default=uuid.uuid4,
-        unique=True
     )
     full_name: Mapped[str] = mapped_column(String(200), nullable=False)
     email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
@@ -28,4 +26,3 @@ class User(Base):
     work_orders: Mapped[list["WorkOrder"]] = relationship(
         back_populates="technician"
     )
-
