@@ -1,6 +1,5 @@
 from typing import Annotated
 from fastapi import Path, Depends, HTTPException, status
-from sqlalchemy import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 from .shemas import User
 from . import crud

@@ -25,16 +25,16 @@ class UserUpdate(UserBase):
 
 
 class UserUpdatePartial(UserBase):
-    full_name: str | None
-    email: str | None
-    password: str | None
+    full_name: str | None = None
+    email: str | None = None
+    password: str | None = None
     role: Literal[
               "administrator",
               "dispatcher",
               "driver",
               "technician"
-          ] | None
-    phone: str | None
+          ] | None = None
+    phone: str | None = None
 
 
 class User(UserBase):
