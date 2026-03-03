@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${SERVICE__HUB__DB__USERNAME}
+      POSTGRES_PASSWORD: ${SERVICE__HUB__DB__PASSWORD}
+      POSTGRES_DB: ${SERVICE__HUB__DB__NAME}
+    ports:
+        - "${SERVICE__HUB__DB__PORT}:${SERVICE__HUB__DB__PORT}"
+    volumes:
+        - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
