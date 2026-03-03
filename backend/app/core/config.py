@@ -1,19 +1,22 @@
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from sqlalchemy import URL
-
+import os
+import dotenv
 
 class SqlalchemyConfig(BaseModel):
     echo: bool = True
 
 
+load_dotenv()
 
 class DatabaseConfig(BaseModel):
-    database: str = "service_hub_db"
-    username: str = "service_hub_user"
-    host: str = "localhost"
-    port: int = 5432
-    password: str = "23458945"
+    database: str = os.getenv("SERVICE__HUB__DB__NAME")
+    username: str = os.getenv("SERVICE__HUB__DB__USERNAME")
+    host: str = os.getenv("SERVICE__HUB__DB__HOST")
+    port: int = os.getenv("SERVICE__HUB__DB__PORT")
+    password: str = os.getenv("SERVICE__HUB__DB__PASSWORD")
 
     @property
     def async_url_pg(self):
