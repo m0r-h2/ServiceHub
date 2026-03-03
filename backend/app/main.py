@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
-
-from backend.app.database.models import db_helper, Base
 from fastapi import FastAPI
+from backend.app.database.models import db_helper, Base
+from backend.app.api_v1 import router as router_v1
+
 
 
 @asynccontextmanager
@@ -14,3 +15,5 @@ app = FastAPI(
     title="Service_Hub",
     lifespan=lifespan
 )
+
+app.include_router(router=router_v1, prefix="/api/v1")
