@@ -8,7 +8,7 @@ from . import crud
 
 
 router = APIRouter(
-    tags=["Orders"]
+    tags=["Orders📦"]
 )
 
 

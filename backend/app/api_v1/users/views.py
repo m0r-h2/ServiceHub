@@ -8,7 +8,7 @@ from .dependencies import get_user_id
 from .shemas import UserCreate, UserUpdate, UserUpdatePartial, User, UserBase
 
 router = APIRouter(
-    tags=["Users"]
+    tags=["Users👤"]
 )
 
 

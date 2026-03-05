@@ -7,7 +7,7 @@ from backend.app.database.models import db_helper
 
 
 router = APIRouter(
-    tags=["Customers"]
+    tags=["Customers🏢"]
 )
 
 
