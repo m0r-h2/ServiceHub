@@ -14,7 +14,6 @@ class UserBase(BaseModel):
         "technician"
     ]
     phone: str
-    model_config = ConfigDict(from_attributes=True)
 
 class UserCreate(UserBase):
     pass
@@ -38,4 +37,7 @@ class UserUpdatePartial(UserBase):
 
 
 class User(UserBase):
+
     user_id: int
+
+    model_config = ConfigDict(from_attributes=True)
