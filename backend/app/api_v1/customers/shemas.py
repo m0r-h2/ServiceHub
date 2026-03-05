@@ -7,7 +7,6 @@ class CustomerBase(BaseModel):
     email: str
     address: str
 
-    model_config = ConfigDict(from_attributes=True)
 
 class CustomerCreate(CustomerBase):
     pass
@@ -23,3 +22,5 @@ class CustomerUpdatePartial(CustomerBase):
 
 class Customer(CustomerBase):
     customer_id: int
+
+    model_config = ConfigDict(from_attributes=True)

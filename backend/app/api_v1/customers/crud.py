@@ -5,6 +5,7 @@ from backend.app.api_v1.customers.shemas import CustomerUpdate, CustomerCreate, 
 from backend.app.database.models import Customer
 
 
+
 async def get_customers(session: AsyncSession) -> list[Customer]:
     stmt = select(Customer).order_by(Customer.customer_id)
     result: Result = await session.execute(stmt)
