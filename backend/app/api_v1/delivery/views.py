@@ -1,11 +1,10 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.util import await_only
 
-from app.api_v1.delivery.shemas import Delivery, DeliveryCreate, DeliveryUpdate, DeliveryUpdatePartial
+from .shemas import Delivery, DeliveryCreate, DeliveryUpdate, DeliveryUpdatePartial
 from . import crud
 from .dependencies import get_delivery_id
-from ...database.models import db_helper
+from backend.app.database.models import db_helper
 
 router = APIRouter(
     tags=["Delivery🚚"]

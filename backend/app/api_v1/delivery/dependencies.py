@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import status, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api_v1.delivery.shemas import Delivery
+from backend.app.api_v1.delivery.shemas import Delivery
 from backend.app.database.models import db_helper
 
 from . import crud

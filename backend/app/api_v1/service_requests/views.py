@@ -61,7 +61,7 @@ async def update_service_request_patrial(
     )
 
 
-@router.delete("/{service_request_id}/", response_model=status.HTTP_204_NO_CONTENT)
+@router.delete("/{service_request_id}/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_service_request(
         service_request: ServiceRequest = Depends(get_service_request_id),
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)

@@ -12,7 +12,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(
-    title="Service_Hub",
+    title="Service Hub",
     lifespan=lifespan
 )
 
