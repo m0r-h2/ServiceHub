@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServiceFlow | Dashboard</title>
+  <link rel="stylesheet" href="../style/style.css">
+  <script src="https://unpkg.com"></script>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">
+    <i data-lucide="shield-check"></i>
+    <span>ServiceFlow</span>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-primary">Создать заявку</button>
+    <div class="no-avatar-small"><i data-lucide="user"></i></div>
+  </div>
+</header>
+
+<main class="app-container">
+  <!-- Левая панель -->
+  <aside class="sidebar fade-in">
+    <h2 class="section-title">Исполнители</h2>
+    <div class="profiles-list">
+      <div class="mini-profile hover-up">
+        <div class="no-avatar"><i data-lucide="user"></i></div>
+        <div class="p-info">
+          <span class="p-name">ООО "МастерГруп"</span>
+          <span class="p-rating"><i data-lucide="star"></i> 5.0</span>
+        </div>
+      </div>
+      <div class="mini-profile hover-up">
+        <div class="no-avatar"><i data-lucide="user"></i></div>
+        <div class="p-info">
+          <span class="p-name">Иван Техник</span>
+          <span class="p-rating"><i data-lucide="star"></i> 4.8</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Центр -->
+  <section class="feed">
+    <div class="feed-header">
+      <h1>Лента заявок</h1>
+    </div>
+    <div class="feed-scroll">
+      <!-- Пример карточки -->
+      <div class="order-card slide-up">
+        <div class="order-top">
+          <span class="badge">Ремонт</span>
+          <span class="price">12 000 ₽</span>
+        </div>
+        <h3>Замена проводки в офисе</h3>
+        <p>Требуется полная замена кабелей в помещении 40 кв.м. Срочно.</p>
+        <div class="order-footer">
+          <span class="meta"><i data-lucide="map-pin"></i> Москва</span>
+          <button class="btn-action">Взять в работу</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Правая панель -->
+  <aside class="sidebar fade-in">
+    <div class="filter-box">
+      <h2 class="section-title">Фильтры</h2>
+      <div class="filter-group">
+        <label>Категории</label>
+        <div class="chips">
+          <label><input type="checkbox" hidden><span>Доставка</span></label>
+          <label><input type="checkbox" hidden checked><span>Ремонт</span></label>
+          <label><input type="checkbox" hidden><span>Сервис</span></label>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Регион</label>
+        <select class="select-ui">
+          <option>Все регионы</option>
+          <option>Москва</option>
+          <option>СПб</option>
+        </select>
+      </div>
+      <button class="btn-primary w-full pulse">Применить</button>
+    </div>
+  </aside>
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
