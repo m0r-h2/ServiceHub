@@ -1,43 +1,22 @@
-
 from fastapi import APIRouter
 
-from .users.views import router as user_router
-from .customers.views import router as customer_router
-from .orders.views import router as order_router
-from .delivery.views import router as delivery_router
-from .service_requests.views import router as service_request_router
-from .work_orders.views import router as work_order_router
+from .workers.views import router as worker_router
+from .companies.views import router as companies_router
+from .task.views import router as task_router
 
-router = APIRouter()
+router_v1 = APIRouter()
 
-router.include_router(
-    router=user_router,
-    prefix="/user"
+router_v1.include_router(
+    router=worker_router,
+    prefix="/workers"
 )
 
-router.include_router(
-    router=customer_router,
-    prefix="/customer"
+router_v1.include_router(
+    router=companies_router,
+    prefix="/companies"
 )
 
-router.include_router(
-    router=order_router,
-    prefix="/order"
-)
-
-
-router.include_router(
-    router=delivery_router,
-    prefix="/delivery"
-)
-
-
-router.include_router(
-    router=service_request_router,
-    prefix="/service_request"
-)
-
-router.include_router(
-    router=work_order_router,
-    prefix="/work_order"
+router_v1.include_router(
+    router=task_router,
+    prefix="/tasks"
 )

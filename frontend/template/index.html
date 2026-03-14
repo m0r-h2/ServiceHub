@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <script src="https://unpkg.com"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ServiceHub | Dashboard</title>
   <link rel="stylesheet" href="/static/style.css">
-  <script src="https://unpkg.com"></script>
+
 </head>
 <body>
 
@@ -144,6 +145,71 @@
     </div>
   </aside>
 </main>
+<!-- Контейнер модального окна -->
+<!-- Уникальный ID: serviceAppWindow -->
+<div id="serviceAppWindow" class="service-app-overlay">
+    <div class="service-app-card">
+        <div class="service-app-header">
+            <h2>Новая заявка</h2>
+            <button type="button" id="serviceAppCloseX" class="service-app-close-x">&times;</button>
+        </div>
+
+        <form action="/create" method="POST" class="service-app-form">
+            <div class="service-app-control">
+                <label>Название задачи</label>
+                <input type="text" name="title" placeholder="Например: Ремонт дома, Заказ шифера, Ремонт ноутбука" required>
+            </div>
+
+            <div class="service-app-row">
+                <div class="service-app-control">
+                    <label>Телефон</label>
+                    <input type="tel" name="phone" placeholder="+7 (999) 000-00-00" required>
+                </div>
+                <div class="service-app-control">
+                    <label>Вид услуги</label>
+                    <select name="work" required>
+                        <option value="Доставка">Доставка</option>
+                        <option value="Ремонт">Ремонт</option>
+                        <option value="Сервисное Обслуживание">Сервисное Обслуживание</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="service-app-row">
+                <div class="service-app-control">
+                    <label>Город</label>
+                    <input type="text" name="city" placeholder="Краснодар" required>
+                </div>
+                <div class="service-app-control">
+                    <label>Адрес</label>
+                    <input type="text" name="address" placeholder="ул. Красная, 1" required>
+                </div>
+            </div>
+
+            <div class="service-app-control">
+                <label>Требования</label>
+                <input type="text" name="required" placeholder="Что нужно иметь при себе">
+            </div>
+
+            <div class="service-app-control">
+                <label>Описание задачи</label>
+                <textarea name="text" rows="3" placeholder="Подробно опишите задачу..."></textarea>
+            </div>
+
+            <div class="service-app-control">
+                <label>Цена (₽)</label>
+                <input type="number" name="price" placeholder="Оставьте пустым для 'Договорная'">
+            </div>
+
+            <div class="service-app-footer">
+                <button type="button" id="serviceAppBtnCancel" class="service-app-btn-grey">Отмена</button>
+                <button type="submit" class="service-app-btn-blue">Создать заявку</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
  <script>
       function openOrderModal(order) {
     const modal = document.getElementById('modalOverlay');
@@ -151,7 +217,6 @@
     // Заполняем поля данными из БД
     document.getElementById('modalBadge').textContent = order.work;
     document.getElementById('modalTitle').textContent = order.title;
-
     if (order.price) {
         document.getElementById('modalPrice').textContent = Number(order.price).toLocaleString('ru-RU') + ' ₽';
     } else {
@@ -173,6 +238,35 @@ function closeOrderModal() {
     document.body.style.overflow = 'auto';
 }
     </script>
+<script>
+       const serviceWindow = document.getElementById('serviceAppWindow');
+    const openTrigger = document.querySelector('.btn-primary'); // Ваша кнопка в шапке
+    const closeX = document.getElementById('serviceAppCloseX');
+    const cancelBtn = document.getElementById('serviceAppBtnCancel');
+
+    // Открыть
+    openTrigger.addEventListener('click', () => {
+        serviceWindow.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Закрыть
+    const closeServiceApp = () => {
+        serviceWindow.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    };
+
+    closeX.addEventListener('click', closeServiceApp);
+    cancelBtn.addEventListener('click', closeServiceApp);
+
+    // Закрыть при клике на фон
+    window.addEventListener('click', (e) => {
+        if (e.target === serviceWindow) {
+            closeServiceApp();
+        }
+    });
+</script>
+
 <script>lucide.createIcons();</script>
 </body>
 </html>

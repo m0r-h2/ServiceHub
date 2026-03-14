@@ -543,3 +543,77 @@ body {
   line-height: 1.6;
   margin: 0;
 }
+
+/* Основной экран (центровка) */
+.service-app-overlay {
+    display: none; /* Переключается на flex через JS */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Белая карточка */
+.service-app-card {
+    background: #ffffff !important;
+    width: 100%;
+    max-width: 500px;
+    padding: 25px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-sizing: border-box;
+}
+
+.service-app-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;
+}
+
+.service-app-header h2 { margin: 0; font-size: 18px; color: #1e293b; }
+
+.service-app-close-x {
+    background: none; border: none; font-size: 30px; color: #94a3b8; cursor: pointer;
+}
+
+/* Поля ввода и сетка */
+.service-app-form { display: flex; flex-direction: column; gap: 14px; }
+.service-app-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.service-app-control { display: flex; flex-direction: column; gap: 4px; }
+
+.service-app-control label {
+    font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;
+}
+
+/* Четкие границы, чтобы поля не исчезали */
+.service-app-control input,
+.service-app-control select,
+.service-app-control textarea {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 1px solid #cbd5e1 !important; /* Серая рамка */
+    border-radius: 8px !important;
+    background: #f8fafc !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+}
+
+/* Кнопки */
+.service-app-footer { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 10px; }
+
+.service-app-btn-grey {
+    background: #f1f5f9; color: #475569; border: none; padding: 12px;
+    border-radius: 10px; font-weight: 600; cursor: pointer;
+}
+
+.service-app-btn-blue {
+    background: #2563eb; color: #ffffff; border: none; padding: 12px;
+    border-radius: 10px; font-weight: 600; cursor: pointer;
+}
+
+}
