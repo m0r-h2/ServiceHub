@@ -9,7 +9,7 @@ class TaskResponse(BaseModel):
 
     title: str = Field(max_length=100)
 
-    phone: str = Field(pattern=r"^\+7\d{10}$")
+    phone: str
 
     work: Literal[
         "Доставка",

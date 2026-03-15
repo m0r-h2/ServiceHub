@@ -30,5 +30,4 @@ async def create_task(
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)
 ):
     result = await crud.create_task(new_task=new_task, session=session)
-
     return RedirectResponse(url="/", status_code=303)
