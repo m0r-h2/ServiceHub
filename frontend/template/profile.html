@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServiceFlow | Профиль компании</title>
+    <title>ServiceNub | Профиль компании</title>
     <link rel="stylesheet" href="../static/style.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
@@ -12,7 +12,7 @@
 <header class="navbar">
     <div class="logo" onclick="window.location.href='/'" style="cursor:pointer">
         <i data-lucide="shield-check"></i>
-        <span>ServiceFlow</span>
+        <span>ServiceNub</span>
     </div>
     <div class="nav-actions">
         <button class="btn-outline" onclick="window.location.href='/'">К ленте заявок</button>
@@ -23,35 +23,53 @@
 <main class="app-container">
     <!-- Левая панель: Инфо о компании -->
     <aside class="sidebar fade-in">
-        <div class="profile-main-card">
-            <div class="profile-cover">
-                <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
-            </div>
-            <div class="profile-header-info">
-                <h2>ООО "ТехноРемонт"</h2>
-                <p class="status-badge">Верифицирован</p>
-                <div class="rating-box">
-                    <span class="big-rating">4.9</span>
-                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                            data-lucide="star"></i><i data-lucide="star"></i></div>
-                    <span class="reviews-count">128 отзывов</span>
+    <div class="profile-main-card">
+        <div class="profile-cover">
+            <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
+        </div>
+        <div class="profile-header-info">
+            <!-- Название компании -->
+            <h2>{{ company.name }}</h2>
+
+            <p class="status-badge">Верифицирован</p>
+
+            <div class="rating-box">
+                <!-- Рейтинг -->
+                <span class="big-rating">{{ company.rating or '0.0' }}</span>
+
+                <!-- Звезды (пока оставляем статично 5 шт, как в оригинале) -->
+                <div class="stars">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
                 </div>
-            </div>
-            <div class="profile-details">
-                <div class="detail-item"><i data-lucide="map-pin"></i> Москва, РФ</div>
-                <div class="detail-item"><i data-lucide="calendar"></i> На сервисе 2 года</div>
+
+                <!-- Количество отзывов -->
+                <span class="reviews-count">{{ company.sum_reviews }} отзывов</span>
             </div>
         </div>
-    </aside>
+
+        <div class="profile-details">
+            <!-- Город -->
+            <div class="detail-item">
+                <i data-lucide="map-pin"></i> {{ company.city }}, РФ
+            </div>
+
+            <!-- Дата регистрации -->
+            <div class="detail-item">
+                <i data-lucide="calendar"></i>
+                На сервисе с {{ company.create_date.strftime('%Y') }} года
+            </div>
+        </div>
+    </div>
+</aside>
 
     <!-- Центр: Активные заказы -->
     <section class="feed">
         <div class="feed-header">
             <h1>Взятые заказы</h1>
-            <div class="tabs">
-                <span class="tab active">В работе (3)</span>
-                <span class="tab">Завершено</span>
-            </div>
         </div>
 
         <div class="feed-scroll">

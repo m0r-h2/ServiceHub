@@ -11,6 +11,16 @@ class SqlalchemyConfig(BaseModel):
 
 load_dotenv()
 
+
+
+class AuthConfig(BaseModel):
+    secret_key: str = os.getenv("SECRET_KEY")
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+
+
+
+
 class DatabaseConfig(BaseModel):
     database: str = os.getenv("SERVICE__HUB__DB__NAME")
     username: str = os.getenv("SERVICE__HUB__DB__USERNAME")
@@ -34,6 +44,7 @@ class DatabaseConfig(BaseModel):
 
 class Settings(BaseSettings):
     db: DatabaseConfig = DatabaseConfig()
+    auth: AuthConfig = AuthConfig()
 
 
 settings = Settings()

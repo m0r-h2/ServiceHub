@@ -31,7 +31,7 @@ class Company(Base):
     )
 
     password: Mapped[str] = mapped_column(
-        Integer,
+        Text,
         nullable=False
     )
 
@@ -41,10 +41,16 @@ class Company(Base):
         nullable=False
     )
 
-    rating: Mapped[Decimal]  = mapped_column(
+    rating: Mapped[Decimal] = mapped_column(
         DECIMAL,
         default=None,
         nullable=True
+    )
+
+    sum_reviews: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False
     )
 
     city: Mapped[str] = mapped_column(

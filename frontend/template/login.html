@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в аккаунт</title>
+    <!-- Подключаем твой файл со стилями -->
+    <link rel="stylesheet" href="static/login.css">
+</head>
+<body>
+    <div class="container">
+        <form class="login-form">
+            <h2>Вход в аккаунт</h2>
+
+            <div class="field">
+                <label>Электронная почта</label>
+                <input type="email" placeholder="mail@company.ru" required>
+            </div>
+
+            <div class="field">
+                <label>Пароль</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-primary">Войти</button>
+
+            <div class="footer">
+                Еще не зарегистрированы? <a onclick=window.location.href='/register'>Регистрация</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

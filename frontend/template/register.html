@@ -57,11 +57,44 @@
             <button type="submit" class="btn-primary">Создать аккаунт</button>
 
             <p class="helper-text">
-                Уже зарегистрированы? <a href="#">Войти</a>
+                Уже зарегистрированы? <a onclick=window.location.href='/login'>Войти</a>
             </p>
         </form>
     </div>
 </div>
+<script>
+    document.querySelector('.form-container').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Останавливаем обычную перезагрузку страницы
 
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/api/v1/companies/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+
+                // Сохраняем JWT токен в память браузера
+                localStorage.setItem('access_token', result.access_token);
+
+                alert('Регистрация успешна!');
+                // Перенаправляем в личный кабинет
+                window.location.href = '/profile';
+            } else {
+                const error = await response.json();
+                alert('Ошибка: ' + (error.detail || 'Не удалось создать аккаунт'));
+            }
+        } catch (err) {
+            console.error('Ошибка сети:', err);
+        }
+    });
+</script>
 </body>
 </html>

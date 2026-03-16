@@ -20,6 +20,7 @@ class CompanyResponse(BaseModel):
     phone: str
     city: str
     rating: Decimal | None
+    sum_reviews: int
     create_date: datetime
     comment: str
 
