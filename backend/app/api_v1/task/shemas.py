@@ -45,6 +45,7 @@ class TaskResponse(BaseModel):
         "Сбор материалов",
         "Доставлено"
     ]
+
     price: Decimal | None
 
     model_config = ConfigDict(from_attributes=True)

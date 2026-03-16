@@ -30,6 +30,11 @@ class Company(Base):
         nullable=False
     )
 
+    password: Mapped[str] = mapped_column(
+        Integer,
+        nullable=False
+    )
+
     phone: Mapped[str] = mapped_column(
         String,
         unique=True,

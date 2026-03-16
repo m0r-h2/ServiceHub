@@ -1,10 +1,10 @@
-from backend.app.database.models import db_helper, Base, Task
+from backend.app.database.models import db_helper, Base
 from backend.app.api_v1 import router_v1
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from backend.app.routers import router
+from backend.app.render import router_render
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -36,7 +36,8 @@ app.add_middleware(
 
 
 app.include_router(router=router_v1, prefix="/api/v1")
-app.include_router(router=router)
+app.include_router(router=router_render)
+
 
 
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")

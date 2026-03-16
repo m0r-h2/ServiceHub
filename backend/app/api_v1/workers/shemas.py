@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class WorkerResponse(BaseModel):
@@ -9,6 +9,8 @@ class WorkerResponse(BaseModel):
     company_name: str | None
     job_title: str
     status: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class WorkerCreate(BaseModel):

@@ -1,21 +1,25 @@
-/* Основные переменные и сброс */
 :root {
-    --bg: #f8fafc;
+    /* Обновленные цвета для градиента */
+    --bg-start: #f1f5f9; /* Светло-серый */
+    --bg-end: #e2e8f0;   /* Чуть темнее */
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --text: #1e293b;
     --muted: #64748b;
     --border: #e2e8f0;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 body {
     margin: 0;
     padding: 0;
-    background: var(--bg);
+    /* Вместо сплошного цвета — мягкий градиент из угла в угол */
+    background: radial-gradient(circle at top left, var(--bg-start), var(--bg-end));
+    background-attachment: fixed; /* Чтобы градиент не дергался при скролле */
+    min-height: 100vh;
     color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
-    overflow: hidden; /* Чтобы скроллились только внутренние колонки */
+    overflow: hidden;
 }
 
 /* Шапка сайта */
