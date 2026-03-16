@@ -1,136 +1,139 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ServiceFlow | Профиль компании</title>
-  <link rel="stylesheet" href="../static/style.css">
-  <script src="https://unpkg.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceFlow | Профиль компании</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
 
 <header class="navbar">
-  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">
-    <i data-lucide="shield-check"></i>
-    <span>ServiceFlow</span>
-  </div>
-  <div class="nav-actions">
-    <button class="btn-outline" onclick="window.location.href='index.html'">К ленте заявок</button>
-    <div class="no-avatar-small"><i data-lucide="user"></i></div>
-  </div>
+    <div class="logo" onclick="window.location.href='/'" style="cursor:pointer">
+        <i data-lucide="shield-check"></i>
+        <span>ServiceFlow</span>
+    </div>
+    <div class="nav-actions">
+        <button class="btn-outline" onclick="window.location.href='/'">К ленте заявок</button>
+        <div class="no-avatar-small"><i data-lucide="user"></i></div>
+    </div>
 </header>
 
 <main class="app-container">
-  <!-- Левая панель: Инфо о компании -->
-  <aside class="sidebar fade-in">
-    <div class="profile-main-card">
-      <div class="profile-cover">
-        <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
-      </div>
-      <div class="profile-header-info">
-        <h2>ООО "ТехноРемонт"</h2>
-        <p class="status-badge">Верифицирован</p>
-        <div class="rating-box">
-          <span class="big-rating">4.9</span>
-          <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
-          <span class="reviews-count">128 отзывов</span>
+    <!-- Левая панель: Инфо о компании -->
+    <aside class="sidebar fade-in">
+        <div class="profile-main-card">
+            <div class="profile-cover">
+                <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
+            </div>
+            <div class="profile-header-info">
+                <h2>ООО "ТехноРемонт"</h2>
+                <p class="status-badge">Верифицирован</p>
+                <div class="rating-box">
+                    <span class="big-rating">4.9</span>
+                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                            data-lucide="star"></i><i data-lucide="star"></i></div>
+                    <span class="reviews-count">128 отзывов</span>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div class="detail-item"><i data-lucide="map-pin"></i> Москва, РФ</div>
+                <div class="detail-item"><i data-lucide="calendar"></i> На сервисе 2 года</div>
+            </div>
         </div>
-      </div>
-      <div class="profile-details">
-        <div class="detail-item"><i data-lucide="map-pin"></i> Москва, РФ</div>
-        <div class="detail-item"><i data-lucide="calendar"></i> На сервисе 2 года</div>
-      </div>
-    </div>
-  </aside>
+    </aside>
 
-  <!-- Центр: Активные заказы -->
-  <section class="feed">
-    <div class="feed-header">
-      <h1>Взятые заказы</h1>
-      <div class="tabs">
-        <span class="tab active">В работе (3)</span>
-        <span class="tab">Завершено</span>
-      </div>
-    </div>
-
-    <div class="feed-scroll">
-      <!-- Карточка заказа с прогрессом -->
-      <div class="order-card slide-up">
-        <div class="order-top">
-          <span class="badge status-work">Выполняется</span>
-          <span class="price">45 000 ₽</span>
-        </div>
-        <h3>Монтаж систем видеонаблюдения</h3>
-        <p>Объект: ТЦ "Океан". Установка 12 камер и настройка сервера.</p>
-
-        <div class="progress-container">
-          <div class="progress-label">
-            <span>Уровень выполнения</span>
-            <span>65%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 65%;"></div>
-          </div>
+    <!-- Центр: Активные заказы -->
+    <section class="feed">
+        <div class="feed-header">
+            <h1>Взятые заказы</h1>
+            <div class="tabs">
+                <span class="tab active">В работе (3)</span>
+                <span class="tab">Завершено</span>
+            </div>
         </div>
 
-        <div class="order-footer">
-          <span class="meta"><i data-lucide="user"></i> Ответственный: Олег В.</span>
-          <button class="btn-action">Детали</button>
-        </div>
-      </div>
+        <div class="feed-scroll">
+            <!-- Карточка заказа с прогрессом -->
+            <div class="order-card slide-up">
+                <div class="order-top">
+                    <span class="badge status-work">Выполняется</span>
+                    <span class="price">45 000 ₽</span>
+                </div>
+                <h3>Монтаж систем видеонаблюдения</h3>
+                <p>Объект: ТЦ "Океан". Установка 12 камер и настройка сервера.</p>
 
-      <div class="order-card slide-up">
-        <div class="order-top">
-          <span class="badge status-check">На проверке</span>
-          <span class="price">8 200 ₽</span>
-        </div>
-        <h3>Ремонт системы охлаждения</h3>
-        <p>Серверная комната, замена кулеров и чистка.</p>
-        <div class="progress-container">
-          <div class="progress-label"><span>Завершено</span><span>100%</span></div>
-          <div class="progress-bar"><div class="progress-fill" style="width: 100%; background: #10b981;"></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Уровень выполнения</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
 
-  <!-- Правая панель: Команда и Статистика -->
-  <aside class="sidebar fade-in">
-    <div class="stats-card">
-      <h2 class="section-title">Статистика компании</h2>
-      <div class="stats-mini-grid">
-        <div class="stat-mini-item">
-          <span class="val">54</span>
-          <span class="lbl">Выполнено</span>
-        </div>
-        <div class="stat-mini-item">
-          <span class="val">98%</span>
-          <span class="lbl">Успешность</span>
-        </div>
-      </div>
-    </div>
+                <div class="order-footer">
+                    <span class="meta"><i data-lucide="user"></i> Ответственный: Олег В.</span>
+                    <button class="btn-action">Детали</button>
+                </div>
+            </div>
 
-    <div class="team-card">
-      <h2 class="section-title">Ваша команда</h2>
-      <div class="employee-list">
-        <div class="employee-item">
-          <div class="no-avatar-small"><i data-lucide="truck"></i></div>
-          <div class="emp-info">
-            <span class="emp-name">Сергей Потапов</span>
-            <span class="emp-role">Водитель • Свободен</span>
-          </div>
+            <div class="order-card slide-up">
+                <div class="order-top">
+                    <span class="badge status-check">На проверке</span>
+                    <span class="price">8 200 ₽</span>
+                </div>
+                <h3>Ремонт системы охлаждения</h3>
+                <p>Серверная комната, замена кулеров и чистка.</p>
+                <div class="progress-container">
+                    <div class="progress-label"><span>Завершено</span><span>100%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%; background: #10b981;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="employee-item">
-          <div class="no-avatar-small"><i data-lucide="wrench"></i></div>
-          <div class="emp-info">
-            <span class="emp-name">Дмитрий Л.</span>
-            <span class="emp-role">Техник • На выезде</span>
-          </div>
+    </section>
+
+    <!-- Правая панель: Команда и Статистика -->
+    <aside class="sidebar fade-in">
+        <div class="stats-card">
+            <h2 class="section-title">Статистика компании</h2>
+            <div class="stats-mini-grid">
+                <div class="stat-mini-item">
+                    <span class="val">54</span>
+                    <span class="lbl">Выполнено</span>
+                </div>
+                <div class="stat-mini-item">
+                    <span class="val">98%</span>
+                    <span class="lbl">Успешность</span>
+                </div>
+            </div>
         </div>
-      </div>
-      <button class="btn-outline w-full" style="margin-top: 15px;">+ Добавить сотрудника</button>
-    </div>
-  </aside>
+
+        <div class="team-card">
+            <h2 class="section-title">Ваша команда</h2>
+            <div class="employee-list">
+                <div class="employee-item">
+                    <div class="no-avatar-small"><i data-lucide="truck"></i></div>
+                    <div class="emp-info">
+                        <span class="emp-name">Сергей Потапов</span>
+                        <span class="emp-role">Водитель • Свободен</span>
+                    </div>
+                </div>
+                <div class="employee-item">
+                    <div class="no-avatar-small"><i data-lucide="wrench"></i></div>
+                    <div class="emp-info">
+                        <span class="emp-name">Дмитрий Л.</span>
+                        <span class="emp-role">Техник • На выезде</span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-outline w-full" style="margin-top: 15px;">+ Добавить сотрудника</button>
+        </div>
+    </aside>
 </main>
 
 <script>lucide.createIcons();</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация компании | ServiceHub</title>
+    <link rel="stylesheet" href="../static/register.css">
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="auth-card">
+        <h1 class="title">Регистрация компании</h1>
+
+        <form action="/api/register" method="POST" class="form-container">
+            <!-- Название компании -->
+            <div class="field">
+                <label for="name">Название компании</label>
+                <input type="text" id="name" name="name" placeholder="Например: РемонтПро" required>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+                <label for="email">Электронная почта</label>
+                <input type="email" id="email" name="email" placeholder="mail@company.ru" required>
+            </div>
+
+            <!-- Пароль -->
+            <div class="field">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <!-- Телефон -->
+            <div class="field">
+                <label for="phone">Контактный телефон</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <!-- Город -->
+            <div class="field">
+                <label for="city">Город (Локация)</label>
+                <select id="city" name="city">
+                    <option value="moscow">Москва</option>
+                    <option value="spb">Санкт-Петербург</option>
+                    <option value="krasnodar">Краснодар</option>
+                    <option value="other">Другой город</option>
+                </select>
+            </div>
+
+            <!-- О компании -->
+            <div class="field">
+                <label for="comment">О компании</label>
+                <textarea id="comment" name="comment" rows="4" placeholder="Краткое описание ваших услуг..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Создать аккаунт</button>
+
+            <p class="helper-text">
+                Уже зарегистрированы? <a href="#">Войти</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

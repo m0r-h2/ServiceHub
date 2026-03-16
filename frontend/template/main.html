@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceHub | Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+<body>
+
+<header class="navbar">
+    <div onclick="window.location.href='/'" class="logo">
+        <i data-lucide="shield-check"></i>
+        <span onclick="window.location.href='/profile'">ServiceHub</span>
+    </div>
+    <div class="nav-actions">
+        <button class="btn-primary">Создать заявку</button>
+        <div class="no-avatar-small" onclick="window.location.href='/profile'"><i data-lucide="user"></i></div>
+    </div>
+</header>
+
+<main class="app-container">
+    <!-- Левая панель -->
+    <aside class="sidebar fade-in">
+        <h2 class="section-title">Исполнители</h2>
+        <div class="profiles-list">
+
+            {% for worker in performers %}
+            <div class="mini-profile hover-up">
+                <div class="no-avatar">
+                    <i data-lucide="user"></i>
+                </div>
+                <div class="p-info">
+                    <span class="p-name">{{ worker.name }}</span>
+                    <span class="p-rating">
+          <i data-lucide="star"></i>
+          {% if worker.rating %}
+            {{ worker.rating }}
+          {% else %}
+            <small>Нет оценок</small>
+          {% endif %}
+        </span>
+                </div>
+            </div>
+            {% else %}
+            <p>Исполнители не найдены</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <!-- Центр -->
+    <section class="feed">
+        <div class="feed-header">
+            <h1>Лента заявок</h1>
+        </div>
+
+        <div class="feed-scroll">
+            {% for order in orders %}
+            <!-- Передаем все данные в функцию openOrderModal через JSON -->
+            <div class="order-card slide-up"
+                 onclick='openOrderModal({{ order | tojson }})'>
+                <div class="order-top">
+                    <span class="badge">{{ order.work }}</span>
+                    <span class="price">
+          {% if order.price is number %}
+            {# Форматируем число: разделяем тысячи пробелом и добавляем знак рубля #}
+            {{ "{:,.0f}".format(order.price).replace(',', ' ') }} ₽
+          {% else %}
+            {# Если там строка "Договорная" или None — выводим как есть #}
+            {{ order.price if order.price else "Договорная" }}
+          {% endif %}
+      </span>
+                </div>
+
+                <h3>{{ order.title }}</h3>
+
+                <!-- Обрезаем текст для превью -->
+                <p>{{ order.text[:80] }}{% if order.text|length > 80 %}...{% endif %}</p>
+
+                <div class="order-footer">
+                    <span class="meta"><i data-lucide="map-pin"></i> {{ order.city }}</span>
+                    <button class="btn-action">Взять в работу</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- ВСПЛЫВАЮЩЕЕ ОКНО (пустое, заполняется через JS) -->
+        <div id="modalOverlay" class="modal-overlay">
+            <div class="modal-window">
+                <div class="modal-header">
+                    <span class="badge" id="modalBadge"></span>
+                    <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <div class="modal-price" id="modalPrice"></div>
+
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <label>Телефон</label>
+                            <div class="value" id="modalPhone"></div>
+                        </div>
+                        <div class="detail-item">
+                            <label>Локация</label>
+                            <div class="value" id="modalAddress"></div>
+                        </div>
+                        <div class="detail-item">
+                            <label>Требования</label>
+                            <div class="value" id="modalRequired"></div>
+                        </div>
+                    </div>
+
+                    <div class="description-block">
+                        <label>Описание задачи</label>
+                        <p id="modalText"></p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeOrderModal()">Закрыть</button>
+                    <button class="btn-action-main">Взять в работу</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Правая панель -->
+    <aside class="sidebar fade-in">
+        <!-- Форма отправляет данные методом GET на тот же URL, где мы находимся -->
+        <form action="/" method="GET" class="filter-box">
+            <h2 class="section-title">Фильтры</h2>
+
+            <div class="filter-group">
+                <label>Категории</label>
+                <div class="chips">
+                    {# Проверяем, выбрана ли категория, чтобы оставить чекбокс активным после перезагрузки #}
+                    <label>
+                        <input type="checkbox" name="category" value="Доставка" hidden
+                               {% if 'Доставка' in selected_categories %}checked{% endif %}>
+                        <span>Доставка</span>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="category" value="Ремонт" hidden
+                               {% if 'Ремонт' in selected_categories %}checked{% endif %}>
+                        <span>Ремонт</span>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="category" value="Сервис" hidden
+                               {% if 'Сервис' in selected_categories %}checked{% endif %}>
+                        <span>Сервис</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Регион</label>
+                <select name="region" class="select-ui">
+                    <option value="Все регионы" {% if selected_region==
+                    "Все регионы" %}selected{% endif %}>Все регионы</option>
+                    <option value="Москва" {% if selected_region==
+                    "Москва" %}selected{% endif %}>Москва</option>
+                    <option value="СПб" {% if selected_region==
+                    "СПб" %}selected{% endif %}>СПб</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary w-full pulse">Применить</button>
+
+            {# Кнопка сброса для удобства #}
+            <a href="/"
+               style="display: block; text-align: center; margin-top: 10px; font-size: 0.8rem; color: #666; text-decoration: none;">Сбросить</a>
+        </form>
+    </aside>
+</main>
+<!-- Контейнер модального окна -->
+<!-- Уникальный ID: serviceAppWindow -->
+<div id="serviceAppWindow" class="service-app-overlay">
+    <div class="service-app-card">
+        <div class="service-app-header">
+            <h2>Новая заявка</h2>
+            <button type="button" id="serviceAppCloseX" class="service-app-close-x">&times;</button>
+        </div>
+
+        <form action="/create" method="POST" class="service-app-form">
+            <div class="service-app-control">
+                <label>Название задачи</label>
+                <input type="text" name="title" placeholder="Например: Ремонт дома, Заказ шифера, Ремонт ноутбука"
+                       required>
+            </div>
+
+            <div class="service-app-row">
+                <div class="service-app-control">
+                    <label>Телефон</label>
+                    <input type="tel" name="phone" placeholder="+7 (999) 000-00-00" required>
+                </div>
+                <div class="service-app-control">
+                    <label>Вид услуги</label>
+                    <select name="work" required>
+                        <option value="Доставка">Доставка</option>
+                        <option value="Ремонт">Ремонт</option>
+                        <option value="Сервисное Обслуживание">Сервисное Обслуживание</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="service-app-row">
+                <div class="service-app-control">
+                    <label>Город</label>
+                    <input type="text" name="city" placeholder="Краснодар" required>
+                </div>
+                <div class="service-app-control">
+                    <label>Адрес</label>
+                    <input type="text" name="address" placeholder="ул. Красная, 1" required>
+                </div>
+            </div>
+
+            <div class="service-app-control">
+                <label>Требования</label>
+                <input type="text" name="required" placeholder="Что нужно иметь при себе">
+            </div>
+
+            <div class="service-app-control">
+                <label>Описание задачи</label>
+                <textarea name="text" rows="3" placeholder="Подробно опишите задачу..."></textarea>
+            </div>
+
+            <div class="service-app-control">
+                <label>Цена (₽)</label>
+                <input type="number" name="price" placeholder="Оставьте пустым для 'Договорная'">
+            </div>
+
+            <div class="service-app-footer">
+                <button type="button" id="serviceAppBtnCancel" class="service-app-btn-grey">Отмена</button>
+                <button type="submit" class="service-app-btn-blue">Создать заявку</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function openOrderModal(order) {
+  const modal = document.getElementById('modalOverlay');
+
+  // Заполняем поля данными из БД
+  document.getElementById('modalBadge').textContent = order.work;
+  document.getElementById('modalTitle').textContent = order.title;
+  if (order.price) {
+      document.getElementById('modalPrice').textContent = Number(order.price).toLocaleString('ru-RU') + ' ₽';
+  } else {
+      document.getElementById('modalPrice').textContent = "Договорная";
+  }
+
+  document.getElementById('modalPhone').textContent = order.phone;
+  document.getElementById('modalAddress').textContent = `г. ${order.city}, ${order.address}`;
+  document.getElementById('modalRequired').textContent = order.required || 'Не указано';
+  document.getElementById('modalText').textContent = order.text;
+
+  // Показываем окно
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+</script>
+<script>
+    const serviceWindow = document.getElementById('serviceAppWindow');
+ const openTrigger = document.querySelector('.btn-primary'); // Ваша кнопка в шапке
+ const closeX = document.getElementById('serviceAppCloseX');
+ const cancelBtn = document.getElementById('serviceAppBtnCancel');
+
+ // Открыть
+ openTrigger.addEventListener('click', () => {
+     serviceWindow.style.display = 'flex';
+     document.body.style.overflow = 'hidden';
+ });
+
+ // Закрыть
+ const closeServiceApp = () => {
+     serviceWindow.style.display = 'none';
+     document.body.style.overflow = 'auto';
+ };
+
+ closeX.addEventListener('click', closeServiceApp);
+ cancelBtn.addEventListener('click', closeServiceApp);
+
+ // Закрыть при клике на фон
+ window.addEventListener('click', (e) => {
+     if (e.target === serviceWindow) {
+         closeServiceApp();
+     }
+ });
+</script>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
