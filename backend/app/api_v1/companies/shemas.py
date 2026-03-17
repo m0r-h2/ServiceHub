@@ -15,6 +15,7 @@ class CompanyCreate(BaseModel):
 
 
 class CompanyResponse(BaseModel):
+    id: int
     name: str
     email: str
     phone: str

@@ -68,52 +68,60 @@
 
     <!-- Центр: Активные заказы -->
     <section class="feed">
-        <div class="feed-header">
-            <h1>Взятые заказы</h1>
-        </div>
+    <div class="feed-header">
+        <h1>Взятые заказы</h1>
+    </div>
 
-        <div class="feed-scroll">
-            <!-- Карточка заказа с прогрессом -->
-            <div class="order-card slide-up">
-                <div class="order-top">
-                    <span class="badge status-work">Выполняется</span>
-                    <span class="price">45 000 ₽</span>
+    <div class="feed-scroll">
+        {% for order in orders %}
+        <div class="order-card slide-up">
+            <div class="order-top">
+                <!-- Динамический цвет бейджа -->
+                <span class="badge
+                    {% if order.status in ['Выполнено', 'Доставлено'] %}status-green
+                    {% elif order.status in ['В пути', 'Идет работа', 'Принято'] %}status-yellow
+                    {% elif order.status in ['Отказ'] %}status-red
+                    {% else %}status-blue{% endif %}">
+                    {{ order.status }}
+                </span>
+
+                <span class="price">
+                    {% if order.price is number %}
+                        {{ "{:,.0f}".format(order.price|float) }} ₽
+                    {% else %}
+                        {{ order.price if order.price else "Договорная" }}
+                    {% endif %}
+                </span>
+            </div>
+
+            <h3>{{ order.title }}</h3>
+            <p>{{ order.text[:100] }}...</p>
+
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Уровень выполнения</span>
+                    <span>{{ order.progress }}%</span>
                 </div>
-                <h3>Монтаж систем видеонаблюдения</h3>
-                <p>Объект: ТЦ "Океан". Установка 12 камер и настройка сервера.</p>
-
-                <div class="progress-container">
-                    <div class="progress-label">
-                        <span>Уровень выполнения</span>
-                        <span>65%</span>
+                <div class="progress-bar">
+                    <!-- Динамический цвет полоски в зависимости от % -->
+                    <div class="progress-fill
+                        {% if order.progress|int >= 100 %}bg-green
+                        {% elif order.progress|int >= 50 %}bg-yellow
+                        {% else %}bg-blue{% endif %}"
+                        style="width: {{ order.progress }}%;">
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 65%;"></div>
-                    </div>
-                </div>
-
-                <div class="order-footer">
-                    <span class="meta"><i data-lucide="user"></i> Ответственный: Олег В.</span>
-                    <button class="btn-action">Детали</button>
                 </div>
             </div>
 
-            <div class="order-card slide-up">
-                <div class="order-top">
-                    <span class="badge status-check">На проверке</span>
-                    <span class="price">8 200 ₽</span>
-                </div>
-                <h3>Ремонт системы охлаждения</h3>
-                <p>Серверная комната, замена кулеров и чистка.</p>
-                <div class="progress-container">
-                    <div class="progress-label"><span>Завершено</span><span>100%</span></div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%; background: #10b981;"></div>
-                    </div>
-                </div>
+            <div class="order-footer">
+                <span class="meta"><i data-lucide="user"></i> Ответственный: {{ order.technical or 'Не назначен' }}</span>
+                <button class="btn-action open-modal-btn" data-order='{{ order | tojson | safe }}'>Детали</button>
             </div>
         </div>
-    </section>
+        {% endfor %}
+    </div>
+</section>
+
 
     <!-- Правая панель: Команда и Статистика -->
     <aside class="sidebar fade-in">
@@ -153,7 +161,179 @@
         </div>
     </aside>
 </main>
+<!-- Модальное окно -->
+<div id="orderModal" class="modal-overlay">
+    <div class="modal-content">
+        <!-- Кнопка-крестик в углу -->
+        <button class="close-x" onclick="closeModal()">&times;</button>
 
+        <div class="modal-body">
+            <h2 id="modalTitle" class="main-title">Детали заказа</h2>
+
+            <!-- Верхняя информационная сетка -->
+            <div class="info-grid-top">
+                <div class="info-item"><strong>Услуга:</strong> <span id="modalWork"></span></div>
+                <div class="info-item"><strong>Цена:</strong> <span id="modalPrice"></span></div>
+                <div class="info-item"><strong>Город:</strong> <span id="modalCity"></span></div>
+                <div class="info-item"><strong>Телефон:</strong> <span id="modalPhone"></span></div>
+            </div>
+
+            <div class="info-section">
+                <label>Адрес:</label>
+                <p id="modalAddress"></p>
+            </div>
+
+            <div class="info-section">
+                <label>Описание:</label>
+                <p id="modalText"></p>
+            </div>
+
+            <hr class="separator">
+
+            <!-- Форма редактирования -->
+            <form id="orderEditForm">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Статус заказа</label>
+                        <select id="modalStatus" name="status">
+                            <option value="Заявка создана">Заявка создана</option>
+                            <option value="Принято">Принято</option>
+                            <option value="В пути">В пути</option>
+                            <option value="Идет работа">Идет работа</option>
+                            <option value="Сбор материалов">Сбор материалов</option>
+                            <option value="На проверке">На проверке</option>
+                            <option value="Выполнено">Выполнено</option>
+                            <option value="Отказ">Отказ</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Прогресс (%)</label>
+                        <input type="number" id="modalProgress" name="progress" min="0" max="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Техник</label>
+                        <input type="text" id="modalTechnical" name="technical" placeholder="Не назначен">
+                    </div>
+                    <div class="input-group">
+                        <label>Водитель</label>
+                        <input type="text" id="modalDriver" name="driver" placeholder="Не назначен">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Отмена</button>
+                    <!-- Кнопка появляется только при изменениях -->
+                    <button type="submit" id="saveBtn" class="btn-save" style="display: none;">Сохранить изменения</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+let originalData = {};
+let currentTaskId = null;
+
+// Слушаем клики по кнопкам "Детали" в списке заказов
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.open-modal-btn');
+    if (btn) {
+        // Парсим данные из атрибута data-order
+        const order = JSON.parse(btn.getAttribute('data-order'));
+        currentTaskId = order.id; // ID для URL PATCH запроса
+
+        // Сохраняем начальное состояние для сравнения
+        originalData = {
+            status: order.status || "Заявка создана",
+            progress: String(order.progress || 0),
+            technical: order.technical || "",
+            driver: order.driver || ""
+        };
+
+        // Заполняем текстовую информацию
+        document.getElementById('modalTitle').innerText = order.title || 'Заказ без названия';
+        document.getElementById('modalWork').innerText = order.work || '-';
+        document.getElementById('modalPrice').innerText = (order.price || 0) + ' ₽';
+        document.getElementById('modalCity').innerText = order.city || '-';
+        document.getElementById('modalPhone').innerText = order.phone || '-';
+        document.getElementById('modalAddress').innerText = order.address || 'Адрес не указан';
+        document.getElementById('modalText').innerText = order.text || 'Нет описания';
+
+        // Заполняем поля формы
+        document.getElementById('modalStatus').value = originalData.status;
+        document.getElementById('modalProgress').value = originalData.progress;
+        document.getElementById('modalTechnical').value = originalData.technical;
+        document.getElementById('modalDriver').value = originalData.driver;
+
+        // Прячем кнопку сохранения и открываем окно
+        document.getElementById('saveBtn').style.display = 'none';
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+});
+
+// Отслеживаем любые изменения в форме
+document.getElementById('orderEditForm').addEventListener('input', function() {
+    const currentData = {
+        status: document.getElementById('modalStatus').value,
+        progress: document.getElementById('modalProgress').value,
+        technical: document.getElementById('modalTechnical').value,
+        driver: document.getElementById('modalDriver').value
+    };
+
+    // Проверяем, отличается ли текущее состояние от оригинала
+    const hasChanges = Object.keys(originalData).some(key => originalData[key] !== currentData[key]);
+    document.getElementById('saveBtn').style.display = hasChanges ? 'block' : 'none';
+});
+
+// ФУНКЦИЯ ОТПРАВКИ PATCH НА СЕРВЕР
+document.getElementById('orderEditForm').onsubmit = async function(e) {
+    e.preventDefault();
+
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.innerText = "Сохранение...";
+    saveBtn.disabled = true;
+
+    // Формируем объект для FastAPI (TaskUpdateCompanyPartial)
+    const updatePayload = {
+        status: document.getElementById('modalStatus').value,
+        progress: parseInt(document.getElementById('modalProgress').value),
+        technical: document.getElementById('modalTechnical').value || null,
+        driver: document.getElementById('modalDriver').value || null
+    };
+
+    try {
+        // ЗАМЕНИ '/tasks/' на свой актуальный путь роутера, если он другой
+        const response = await fetch(`/api/v1/tasks/${currentTaskId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatePayload)
+        });
+
+        if (response.ok) {
+            // Успех! Перезагружаем страницу, чтобы обновить список заказов
+            window.location.reload();
+        } else {
+            const error = await response.json();
+            alert("Ошибка сохранения: " + (error.detail || "Сервер отклонил запрос"));
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Ошибка сети. Проверьте соединение с сервером.");
+    } finally {
+        saveBtn.innerText = "Сохранить изменения";
+        saveBtn.disabled = false;
+    }
+};
+
+function closeModal() {
+    document.getElementById('orderModal').style.display = 'none';
+}
+
+// Закрытие при клике мимо окна
+window.onclick = function(event) {
+    const modal = document.getElementById('orderModal');
+    if (event.target === modal) closeModal();
+};
+</script>
 <script>lucide.createIcons();</script>
 </body>
 </html>

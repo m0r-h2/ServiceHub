@@ -43,8 +43,11 @@ class TaskResponse(BaseModel):
         "Отказ",
         "На проверке",
         "Сбор материалов",
-        "Доставлено"
+        "Доставлено",
+        "Выполнено"
     ]
+
+    progress: int
 
     price: Decimal | None
 
@@ -90,6 +93,30 @@ class TaskCreate(BaseModel):
             title=title, phone=phone, work=work, city=city,
             address=address, required=required, text=text, price=price
         )
+
+
+class TaskUpdateCompanyPartial(BaseModel):
+    technical: str | None = None
+
+    driver: str | None = None
+
+    status: Literal[
+        "Заявка создана",
+        "Принято",
+        "В пути",
+        "Идет работа",
+        "Отказ",
+        "На проверке",
+        "Сбор материалов",
+        "Доставлено",
+        "Выполнено"
+    ] | None
+    progress: int | None = Field(ge=0, le=100)
+
+
+class TaskUpdateGlobalPartial(BaseModel):
+    company_id: int | None
+
 
 
 

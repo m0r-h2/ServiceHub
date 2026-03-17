@@ -57,9 +57,9 @@ class Task(Base):
 
     )
 
-    company: Mapped[str] = mapped_column(
-        String,
-        ForeignKey("companies.name"),
+    company_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("companies.id"),
         nullable=True
     )
 
@@ -92,6 +92,12 @@ class Task(Base):
         default="Заявка создана"
     )
 
+    progress: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=0
+    )
+
     technical_worker: Mapped["Worker"] = relationship(
         "Worker",
         foreign_keys=[technical],
@@ -107,7 +113,7 @@ class Task(Base):
 
     task_company_obj: Mapped["Company"] = relationship(
         "Company",
-        foreign_keys=[company],
+        foreign_keys=[company_id],
         back_populates="tasks"
     )
 

@@ -621,3 +621,102 @@ body {
 }
 
 }
+
+/* Основной фон модалки */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center; justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    width: 600px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    font-family: sans-serif;
+}
+
+/* Кнопка закрытия (крестик) */
+.close-x {
+    position: absolute; top: 15px; right: 15px;
+    background: #eee; border: 1px solid #ccc;
+    border-radius: 4px; padding: 2px 8px; cursor: pointer;
+}
+
+.main-title { margin-top: 0; font-size: 22px; color: #1a202c; }
+
+/* Сетка инфы сверху */
+.info-grid-top {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 20px;
+}
+.info-item { font-size: 14px; }
+.info-section label { color: #4a5568; font-weight: bold; font-size: 14px; display: block; margin-top: 10px; }
+.info-section p { margin: 5px 0; color: #2d3748; }
+
+.separator { border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+
+/* Сетка полей ввода */
+.form-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 15px; margin-bottom: 30px;
+}
+.input-group label { font-size: 12px; color: #718096; display: block; margin-bottom: 5px; }
+.input-group input, .input-group select {
+    width: 100%; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; box-sizing: border-box;
+}
+
+/* Футер с кнопками */
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* Отмена слева, Сохранить справа */
+    align-items: center;
+}
+
+.btn-cancel {
+    background: #edf2f7; border: 1px solid #cbd5e0;
+    padding: 8px 16px; border-radius: 4px; cursor: pointer;
+}
+
+.btn-save {
+    background: #3182ce; color: white; border: none;
+    padding: 8px 20px; border-radius: 4px; cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* Цвета для бейджей статуса */
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-green { background: #dcfce7; color: #166534; }  /* Зеленый */
+.status-yellow { background: #fef9c3; color: #854d0e; } /* Желтый */
+.status-red { background: #fee2e2; color: #991b1b; }    /* Красный */
+.status-blue { background: #e0f2fe; color: #075985; }   /* Синий (по умолчанию) */
+
+/* Цвета для Прогресс-бара */
+.progress-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.bg-green { background-color: #22c55e !important; }  /* 100% */
+.bg-yellow { background-color: #eab308 !important; } /* 50-99% */
+.bg-blue { background-color: #3b82f6 !important; }   /* < 50% */
+
