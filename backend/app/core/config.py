@@ -16,7 +16,7 @@ load_dotenv()
 class AuthConfig(BaseModel):
     secret_key: str = os.getenv("SECRET_KEY")
     algorithm: str = "HS256"
-    access_token_expire_minutes: int = 120
+    access_token_expire_minutes: int = 30
 
 
 

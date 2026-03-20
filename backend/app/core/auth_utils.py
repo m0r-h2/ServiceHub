@@ -2,13 +2,9 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime, timedelta, timezone
 import jwt
-from fastapi import Depends, HTTPException, status
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.database.models import Company
 from backend.app.core import settings
-from backend.app.database.models import db_helper
+
 
 
 
@@ -34,5 +30,8 @@ def create_access_token(data: dict):
 
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, settings.auth.secret_key, algorithm=settings.auth.algorithm)
+
+
+
 
 

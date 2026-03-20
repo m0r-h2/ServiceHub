@@ -5,7 +5,7 @@ from . import crud
 from .shemas import CompanyResponse, CompanyCreate
 from backend.app.database.models import db_helper
 from backend.app.core.auth_utils import create_access_token
-from ...core import settings
+from backend.app.core import settings
 
 router = APIRouter(
     tags=["Company"]

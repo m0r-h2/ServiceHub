@@ -2,11 +2,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.app.database.models import Task
 from sqlalchemy import select, Result
 
-from .shemas import TaskCreate, TaskUpdateCompanyPartial
+from .shemas import TaskCreate, TaskUpdateCompanyPartial, TaskUpdateWorking
 
 
 async def get_tasks(session: AsyncSession, work: list = None, city: str = None) -> list[Task]:
     stmt = select(Task)
+
+    stmt = stmt.where(Task.company_id == None)
 
     if work:
         stmt = stmt.where(Task.work.in_(work))
@@ -41,8 +43,14 @@ async def create_task(
     return task
 
 
-async def update_task(task: Task, task_update: TaskUpdateCompanyPartial,session: AsyncSession):
+async def update_task(task: Task, task_update: TaskUpdateCompanyPartial | TaskUpdateWorking,session: AsyncSession):
     for name,value in task_update.model_dump(exclude_unset=True).items():
         setattr(task, name, value)
     await session.commit()
     return task
+
+# async def update_task_manual(task: Task, task_update: TaskUpdateWorking, session: AsyncSession):
+#     for name,value in task_update.model_dump(exclude_unset=True).items():
+#         setattr(task, name, value)
+#     await session.commit()
+#     return task

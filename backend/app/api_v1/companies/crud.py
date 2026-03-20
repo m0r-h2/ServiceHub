@@ -7,10 +7,17 @@ from .shemas import CompanyCreate
 
 
 async def get_companies(session: AsyncSession) -> list[Company]:
-    stmt = select(Company).order_by(Company.id)
+    stmt = select(Company).order_by(Company.rating.desc())
     result: Result = await session.execute(stmt)
     company = result.scalars().all()
     return list(company)
+
+
+async def get_companies_email(email: str,session: AsyncSession) -> Company:
+    stmt = select(Company).where(Company.email == email)
+    result: Result = await session.execute(stmt)
+    company = result.scalars().first()
+    return company
 
 
 async def create_company(new_company : CompanyCreate, session: AsyncSession) -> Company:

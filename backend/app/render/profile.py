@@ -7,7 +7,7 @@ from backend.app.api_v1.task.shemas import TaskResponse
 from backend.app.api_v1.task import crud as crud_task
 from backend.app.api_v1.companies.shemas import CompanyResponse
 from backend.app.database.models import db_helper
-from backend.app.render.register import get_current_company
+from backend.app.api_v1.companies.dependencies import get_current_company
 
 router = APIRouter(
     prefix="/profile",

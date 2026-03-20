@@ -39,7 +39,7 @@ class TaskResponse(BaseModel):
         "Заявка создана",
         "Принято",
         "В пути",
-        "Идет работа",
+        "В работе",
         "Отказ",
         "На проверке",
         "Сбор материалов",
@@ -104,7 +104,7 @@ class TaskUpdateCompanyPartial(BaseModel):
         "Заявка создана",
         "Принято",
         "В пути",
-        "Идет работа",
+        "В работе",
         "Отказ",
         "На проверке",
         "Сбор материалов",
@@ -114,8 +114,10 @@ class TaskUpdateCompanyPartial(BaseModel):
     progress: int | None = Field(ge=0, le=100)
 
 
-class TaskUpdateGlobalPartial(BaseModel):
-    company_id: int | None
+class TaskUpdateWorking(BaseModel):
+    company_id: int
+    status: str = "Принято"
+    progress: int = 0
 
 
 
