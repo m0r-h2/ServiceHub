@@ -199,7 +199,7 @@
                             <option value="Заявка создана">Заявка создана</option>
                             <option value="Принято">Принято</option>
                             <option value="В пути">В пути</option>
-                            <option value="Идет работа">Идет работа</option>
+                            <option value="В работе">В работе</option>
                             <option value="Сбор материалов">Сбор материалов</option>
                             <option value="На проверке">На проверке</option>
                             <option value="Выполнено">Выполнено</option>
@@ -229,111 +229,6 @@
         </div>
     </div>
 </div>
-<script>
-let originalData = {};
-let currentTaskId = null;
-
-// Слушаем клики по кнопкам "Детали" в списке заказов
-document.addEventListener('click', function(e) {
-    const btn = e.target.closest('.open-modal-btn');
-    if (btn) {
-        // Парсим данные из атрибута data-order
-        const order = JSON.parse(btn.getAttribute('data-order'));
-        currentTaskId = order.id; // ID для URL PATCH запроса
-
-        // Сохраняем начальное состояние для сравнения
-        originalData = {
-            status: order.status || "Заявка создана",
-            progress: String(order.progress || 0),
-            technical: order.technical || "",
-            driver: order.driver || ""
-        };
-
-        // Заполняем текстовую информацию
-        document.getElementById('modalTitle').innerText = order.title || 'Заказ без названия';
-        document.getElementById('modalWork').innerText = order.work || '-';
-        document.getElementById('modalPrice').innerText = (order.price || 0) + ' ₽';
-        document.getElementById('modalCity').innerText = order.city || '-';
-        document.getElementById('modalPhone').innerText = order.phone || '-';
-        document.getElementById('modalAddress').innerText = order.address || 'Адрес не указан';
-        document.getElementById('modalText').innerText = order.text || 'Нет описания';
-
-        // Заполняем поля формы
-        document.getElementById('modalStatus').value = originalData.status;
-        document.getElementById('modalProgress').value = originalData.progress;
-        document.getElementById('modalTechnical').value = originalData.technical;
-        document.getElementById('modalDriver').value = originalData.driver;
-
-        // Прячем кнопку сохранения и открываем окно
-        document.getElementById('saveBtn').style.display = 'none';
-        document.getElementById('orderModal').style.display = 'flex';
-    }
-});
-
-// Отслеживаем любые изменения в форме
-document.getElementById('orderEditForm').addEventListener('input', function() {
-    const currentData = {
-        status: document.getElementById('modalStatus').value,
-        progress: document.getElementById('modalProgress').value,
-        technical: document.getElementById('modalTechnical').value,
-        driver: document.getElementById('modalDriver').value
-    };
-
-    // Проверяем, отличается ли текущее состояние от оригинала
-    const hasChanges = Object.keys(originalData).some(key => originalData[key] !== currentData[key]);
-    document.getElementById('saveBtn').style.display = hasChanges ? 'block' : 'none';
-});
-
-// ФУНКЦИЯ ОТПРАВКИ PATCH НА СЕРВЕР
-document.getElementById('orderEditForm').onsubmit = async function(e) {
-    e.preventDefault();
-
-    const saveBtn = document.getElementById('saveBtn');
-    saveBtn.innerText = "Сохранение...";
-    saveBtn.disabled = true;
-
-    // Формируем объект для FastAPI (TaskUpdateCompanyPartial)
-    const updatePayload = {
-        status: document.getElementById('modalStatus').value,
-        progress: parseInt(document.getElementById('modalProgress').value),
-        technical: document.getElementById('modalTechnical').value || null,
-        driver: document.getElementById('modalDriver').value || null
-    };
-
-    try {
-        // ЗАМЕНИ '/tasks/' на свой актуальный путь роутера, если он другой
-        const response = await fetch(`/api/v1/tasks/${currentTaskId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatePayload)
-        });
-
-        if (response.ok) {
-            // Успех! Перезагружаем страницу, чтобы обновить список заказов
-            window.location.reload();
-        } else {
-            const error = await response.json();
-            alert("Ошибка сохранения: " + (error.detail || "Сервер отклонил запрос"));
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Ошибка сети. Проверьте соединение с сервером.");
-    } finally {
-        saveBtn.innerText = "Сохранить изменения";
-        saveBtn.disabled = false;
-    }
-};
-
-function closeModal() {
-    document.getElementById('orderModal').style.display = 'none';
-}
-
-// Закрытие при клике мимо окна
-window.onclick = function(event) {
-    const modal = document.getElementById('orderModal');
-    if (event.target === modal) closeModal();
-};
-</script>
-<script>lucide.createIcons();</script>
+<script src="/static/js/profile.js"></script>
 </body>
 </html>
