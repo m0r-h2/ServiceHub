@@ -11,9 +11,15 @@ async def get_workers(session: AsyncSession) -> list[Worker]:
     workers = result.scalars().all()
     return list(workers)
 
+async def get_workers_from_the_company(company_name: str ,session: AsyncSession) -> list[Worker]:
+    stmt = select(Worker).where(Worker.company_name == company_name).order_by(Worker.id)
+    result: Result = await session.execute(stmt)
+    workers = result.scalars().all()
+    return list(workers)
 
 async def create_worker(new_worker: WorkerCreate, session: AsyncSession) -> Worker:
     worker = Worker(**new_worker.model_dump())
     session.add(worker)
     await session.commit()
     return worker
+

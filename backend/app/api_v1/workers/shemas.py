@@ -7,8 +7,17 @@ class WorkerResponse(BaseModel):
     phone: str
     name: str
     company_name: str | None
-    job_title: str
-    status: str
+    job_title: Literal[
+        "Администратор",
+        "Водитель",
+        "Техник",
+        "Босс"
+    ]
+    status: Literal[
+        "Свободен",
+        "На выезде",
+        "Освобожден от работы"
+    ]
 
     model_config = ConfigDict(from_attributes=True)
 

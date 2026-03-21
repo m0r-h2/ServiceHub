@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import select
 
 from backend.app.database.models import Company, Worker, Task, db_helper
+from backend.app.core import hash_password
 
 async def seed_db():
 
@@ -15,19 +16,20 @@ async def seed_db():
         # ----------------
         companies = [
             Company(
-                name="Удачный ремонт",
-                email="repair@servicehub.ru",
-                password="hashed",
+                name="ООО Удачный ремонт",
+                email="test@gmail.ru",
+                password=hash_password("hashed"),
                 phone="+79001001001",
                 city="Москва",
                 rating=Decimal("4.6"),
                 sum_reviews=45,
                 comment="Ремонт квартир и бытовой техники"
             ),
+
             Company(
                 name="Быстрая доставка",
                 email="delivery@servicehub.ru",
-                password="hashed",
+                password=hash_password("hashed"),
                 phone="+79001001002",
                 city="Москва",
                 rating=Decimal("4.4"),
@@ -37,7 +39,7 @@ async def seed_db():
             Company(
                 name="Мастер сервис",
                 email="master@servicehub.ru",
-                password="hashed",
+                password=hash_password("hashed"),
                 phone="+79001001003",
                 city="Санкт-Петербург",
                 rating=Decimal("4.7"),
@@ -57,7 +59,7 @@ async def seed_db():
             Worker(
                 name="Алексей Смирнов",
                 phone="+79100000001",
-                company_name="Удачный ремонт",
+                company_name="ООО Удачный ремонт",
                 job_title="Босс",
                 status="Свободен"
             ),
@@ -65,7 +67,7 @@ async def seed_db():
             Worker(
                 name="Иван Петров",
                 phone="+79100000002",
-                company_name="Удачный ремонт",
+                company_name="ООО Удачный ремонт",
                 job_title="Техник",
                 status="На выезде"
             ),
@@ -73,7 +75,7 @@ async def seed_db():
             Worker(
                 name="Дмитрий Кузнецов",
                 phone="+79100000003",
-                company_name="Удачный ремонт",
+                company_name="ООО Удачный ремонт",
                 job_title="Администратор",
                 status="Свободен"
             ),
@@ -90,7 +92,7 @@ async def seed_db():
                 name="Андрей Волков",
                 phone="+79100000005",
                 company_name="Быстрая доставка",
-                job_title="Водитель",
+                job_title="ООО Удачный ремонт",
                 status="На выезде"
             ),
 
@@ -145,7 +147,7 @@ async def seed_db():
                 required="Инструменты",
                 text="Стиральная машина не сливает воду",
                 price=Decimal("3500"),
-                company_id=company_map["Удачный ремонт"],
+                company_id=None,
                 technical="Иван Петров",
                 status="В работе",
                 progress=40,
@@ -161,7 +163,7 @@ async def seed_db():
                 required="Грузовой транспорт",
                 text="Доставить диван и шкаф",
                 price=Decimal("2500"),
-                company_id=company_map["Быстрая доставка"],
+                company_id=None,
                 driver="Андрей Волков",
                 status="В работе",
                 progress=20,
@@ -177,7 +179,7 @@ async def seed_db():
                 required="Электроинструменты",
                 text="Не работает розетка",
                 price=Decimal("1500"),
-                company_id=company_map["Мастер сервис"],
+                company_id=None,
                 technical="Олег Морозов",
                 status="Заявка создана",
                 progress=0
@@ -192,7 +194,7 @@ async def seed_db():
                 required="Инструменты",
                 text="Собрать шкаф IKEA",
                 price=Decimal("3000"),
-                company_id=company_map["Мастер сервис"],
+                company_id=None,
                 technical="Олег Морозов",
                 status="В работе",
                 progress=15

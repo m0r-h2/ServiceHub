@@ -36,6 +36,20 @@ body {
     z-index: 100;
 }
 
+/* Шапка сайта */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 70px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -720,3 +734,114 @@ body {
 .bg-yellow { background-color: #eab308 !important; } /* 50-99% */
 .bg-blue { background-color: #3b82f6 !important; }   /* < 50% */
 
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+    background: rgba(255, 255, 255, 0.4); /* Полупрозрачный фон */
+    border-radius: 24px;
+    border: 1px dashed var(--border);
+    margin: 20px;
+}
+
+.empty-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    filter: grayscale(0.5);
+    animation: float 4s ease-in-out infinite;
+}
+
+.empty-state h2 {
+    margin: 0 0 10px 0;
+    color: var(--text);
+    font-size: 1.4rem;
+}
+
+.empty-state p {
+    color: var(--muted);
+    max-width: 300px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px var(--primary-glow);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 20px -5px var(--primary-glow);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.employee-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5); /* легкая разделительная линия */
+}
+
+.emp-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+}
+
+.emp-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e293b;
+    line-height: 1.2;
+}
+
+.emp-status-line {
+    font-size: 12px;
+    color: #94a3b8; /* приглушенный серый */
+    margin: 2px 0;
+}
+
+/* Вот здесь магия для телефона */
+.emp-phone {
+    font-size: 11px; /* очень мелкий шрифт */
+    color: #64748b;
+    opacity: 0.8;
+    letter-spacing: 0.3px;
+}
+
+/* Цвета статусов текстом, как на скрине */
+.text-green { color: #22c55e; }
+.text-yellow { color: #f59e0b; }
+.text-red { color: #ef4444; }
+
+/* Стиль иконки (кружок) */
+.no-avatar-small {
+    width: 36px;
+    height: 36px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+}
+
+.no-avatar-small svg {
+    width: 18px;
+    height: 18px;
+}

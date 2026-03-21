@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ServiceNub | Профиль компании</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
@@ -23,143 +23,180 @@
 <main class="app-container">
     <!-- Левая панель: Инфо о компании -->
     <aside class="sidebar fade-in">
-    <div class="profile-main-card">
-        <div class="profile-cover">
-            <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
-        </div>
-        <div class="profile-header-info">
-            <!-- Название компании -->
-            <h2>{{ company.name }}</h2>
+        <div class="profile-main-card">
+            <div class="profile-cover">
+                <div class="no-avatar-large"><i data-lucide="briefcase"></i></div>
+            </div>
+            <div class="profile-header-info">
+                <!-- Название компании -->
+                <h2>{{ company.name }}</h2>
 
-            <p class="status-badge">Верифицирован</p>
+                <p class="status-badge">Верифицирован</p>
 
-            <div class="rating-box">
-                <!-- Рейтинг -->
-                <span class="big-rating">{{ company.rating or '0.0' }}</span>
+                <div class="rating-box">
+                    <!-- Рейтинг -->
+                    <span class="big-rating">{{ company.rating or '0.0' }}</span>
 
-                <!-- Звезды (пока оставляем статично 5 шт, как в оригинале) -->
-                <div class="stars">
-                    <i data-lucide="star"></i>
-                    <i data-lucide="star"></i>
-                    <i data-lucide="star"></i>
-                    <i data-lucide="star"></i>
-                    <i data-lucide="star"></i>
+                    <!-- Звезды (пока оставляем статично 5 шт, как в оригинале) -->
+                    <div class="stars">
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                    </div>
+
+                    <!-- Количество отзывов -->
+                    <span class="reviews-count">{{ company.sum_reviews }} отзывов</span>
+                </div>
+            </div>
+
+            <div class="profile-details">
+                <!-- Город -->
+                <div class="detail-item">
+                    <i data-lucide="map-pin"></i> {{ company.city }}, РФ
                 </div>
 
-                <!-- Количество отзывов -->
-                <span class="reviews-count">{{ company.sum_reviews }} отзывов</span>
+                <!-- Дата регистрации -->
+                <div class="detail-item">
+                    <i data-lucide="calendar"></i>
+                    На сервисе с {{ company.create_date.strftime('%Y') }} года
+                </div>
             </div>
         </div>
-
-        <div class="profile-details">
-            <!-- Город -->
-            <div class="detail-item">
-                <i data-lucide="map-pin"></i> {{ company.city }}, РФ
-            </div>
-
-            <!-- Дата регистрации -->
-            <div class="detail-item">
-                <i data-lucide="calendar"></i>
-                На сервисе с {{ company.create_date.strftime('%Y') }} года
-            </div>
-        </div>
-    </div>
-</aside>
+    </aside>
 
     <!-- Центр: Активные заказы -->
     <section class="feed">
-    <div class="feed-header">
-        <h1>Взятые заказы</h1>
-    </div>
+        <div class="feed-header">
+            <h1>Взятые заказы</h1>
+        </div>
 
-    <div class="feed-scroll">
-        {% for order in orders %}
-        <div class="order-card slide-up">
-            <div class="order-top">
-                <!-- Динамический цвет бейджа -->
-                <span class="badge
-                    {% if order.status in ['Выполнено', 'Доставлено'] %}status-green
-                    {% elif order.status in ['В пути', 'Идет работа', 'Принято'] %}status-yellow
-                    {% elif order.status in ['Отказ'] %}status-red
-                    {% else %}status-blue{% endif %}">
-                    {{ order.status }}
-                </span>
+        <div class="feed-scroll">
+            {% if orders and orders|length > 0 %}
+            {% for order in orders %}
+            <div class="order-card slide-up">
+                <div class="order-top">
+                    <!-- Динамический цвет бейджа -->
+                    <span class="badge
+                        {% if order.status in ['Выполнено', 'Доставлено'] %}status-green
+                        {% elif order.status in ['В пути', 'Идет работа', 'Принято'] %}status-yellow
+                        {% elif order.status in ['Отказ'] %}status-red
+                        {% else %}status-blue{% endif %}">
+                        {{ order.status }}
+                    </span>
 
-                <span class="price">
-                    {% if order.price is number %}
-                        {{ "{:,.0f}".format(order.price|float) }} ₽
-                    {% else %}
-                        {{ order.price if order.price else "Договорная" }}
-                    {% endif %}
-                </span>
-            </div>
-
-            <h3>{{ order.title }}</h3>
-            <p>{{ order.text[:100] }}...</p>
-
-            <div class="progress-container">
-                <div class="progress-label">
-                    <span>Уровень выполнения</span>
-                    <span>{{ order.progress }}%</span>
+                    <span class="price">
+                        {% if order.price is number %}
+                            {{ "{:,.0f}".format(order.price|float) }} ₽
+                        {% else %}
+                            {{ order.price if order.price else "Договорная" }}
+                        {% endif %}
+                    </span>
                 </div>
-                <div class="progress-bar">
-                    <!-- Динамический цвет полоски в зависимости от % -->
-                    <div class="progress-fill
-                        {% if order.progress|int >= 100 %}bg-green
-                        {% elif order.progress|int >= 50 %}bg-yellow
-                        {% else %}bg-blue{% endif %}"
-                        style="width: {{ order.progress }}%;">
+
+                <h3>{{ order.title }}</h3>
+                <p>{{ order.text[:100] }}...</p>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Уровень выполнения</span>
+                        <span>{{ order.progress }}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill
+                            {% if order.progress|int >= 100 %}bg-green
+                            {% elif order.progress|int >= 50 %}bg-yellow
+                            {% else %}bg-blue{% endif %}"
+                             style="width: {{ order.progress }}%;">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="order-footer">
-                <span class="meta"><i data-lucide="user"></i> Ответственный: {{ order.technical or 'Не назначен' }}</span>
-                <button class="btn-action open-modal-btn" data-order='{{ order | tojson | safe }}'>Детали</button>
+                <div class="order-footer">
+                    <span class="meta"><i data-lucide="user"></i> Ответственный: {{ order.technical or 'Не назначен' }}</span>
+                    <button class="btn-action open-modal-btn" data-order='{{ order | tojson | safe }}'>Детали</button>
+                </div>
             </div>
+            {% endfor %}
+            {% else %}
+            <!-- Блок, если заказов нет -->
+            <div class="empty-state slide-up">
+                <div class="empty-icon">📂</div>
+                <h2>Заказов пока нет</h2>
+                <p>Здесь будут отображаться ваши активные задачи, как только вы их возьмете в работу.</p>
+                <a href="/" class="btn-primary">Найти заказы</a>
+            </div>
+            {% endif %}
         </div>
-        {% endfor %}
-    </div>
-</section>
+    </section>
 
 
     <!-- Правая панель: Команда и Статистика -->
+    <!-- Правая панель: Команда и Статистика -->
     <aside class="sidebar fade-in">
+        <!-- Блок статистики -->
         <div class="stats-card">
-            <h2 class="section-title">Статистика компании</h2>
+            <h2 class="section-title">Компания: {{ company.name }}</h2>
             <div class="stats-mini-grid">
                 <div class="stat-mini-item">
-                    <span class="val">54</span>
-                    <span class="lbl">Выполнено</span>
+                    <span class="val">{{ orders|length }}</span>
+                    <span class="lbl">Заказов</span>
                 </div>
                 <div class="stat-mini-item">
-                    <span class="val">98%</span>
-                    <span class="lbl">Успешность</span>
+                    <span class="val">{{ workers|length }}</span>
+                    <span class="lbl">Сотрудников</span>
                 </div>
             </div>
         </div>
 
+        <!-- Блок команды -->
         <div class="team-card">
-            <h2 class="section-title">Ваша команда</h2>
-            <div class="employee-list">
-                <div class="employee-item">
-                    <div class="no-avatar-small"><i data-lucide="truck"></i></div>
-                    <div class="emp-info">
-                        <span class="emp-name">Сергей Потапов</span>
-                        <span class="emp-role">Водитель • Свободен</span>
-                    </div>
-                </div>
-                <div class="employee-item">
-                    <div class="no-avatar-small"><i data-lucide="wrench"></i></div>
-                    <div class="emp-info">
-                        <span class="emp-name">Дмитрий Л.</span>
-                        <span class="emp-role">Техник • На выезде</span>
-                    </div>
-                </div>
+            <div class="team-header">
+                <h2 class="section-title">Ваша команда</h2>
             </div>
-            <button class="btn-outline w-full" style="margin-top: 15px;">+ Добавить сотрудника</button>
+
+            <div class="employee-list">
+                {# 1. Проверяем, есть ли сотрудники в списке #}
+                {% if workers and workers|length > 0 %}
+
+                {# 2. ЗАПУСКАЕМ ЦИКЛ (его не было в твоем коде) #}
+                {% for worker in workers %}
+                <div class="employee-item">
+                    <div class="no-avatar-small">
+                        {% if worker.job_title == "Водитель" %}<i data-lucide="truck"></i>
+                        {% elif worker.job_title == "Техник" %}<i data-lucide="wrench"></i>
+                        {% elif worker.job_title == "Администратор" %}<i data-lucide="shield-check"></i>
+                        {% elif worker.job_title == "Босс" %}<i data-lucide="crown"></i>
+                        {% else %}<i data-lucide="user"></i>{% endif %}
+                    </div>
+
+                    <div class="emp-info">
+                        <span class="emp-name">{{ worker.name }}</span>
+                        <span class="emp-status-line">
+                            {{ worker.job_title }} •
+                            <span class="{% if worker.status == 'Свободен' %}text-green{% elif worker.status == 'На выезде' %}text-yellow{% else %}text-red{% endif %}">
+                                {{ worker.status }}
+                            </span>
+                        </span>
+                        <span class="emp-phone">{{ worker.phone }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% else %}
+                <div class="empty-mini">
+                    <p>Сотрудники не найдены</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <button class="btn-outline w-full" style="margin-top: 15px;" onclick="openAddWorkerModal()">
+                + Добавить сотрудника
+            </button>
         </div>
     </aside>
+
 </main>
 <!-- Модальное окно -->
 <div id="orderModal" class="modal-overlay">
@@ -223,7 +260,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal()">Отмена</button>
                     <!-- Кнопка появляется только при изменениях -->
-                    <button type="submit" id="saveBtn" class="btn-save" style="display: none;">Сохранить изменения</button>
+                    <button type="submit" id="saveBtn" class="btn-save" style="display: none;">Сохранить изменения
+                    </button>
                 </div>
             </form>
         </div>
