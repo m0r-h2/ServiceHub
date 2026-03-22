@@ -12,7 +12,7 @@ from backend.app.database.models import db_helper
 from backend.app.api_v1.companies.dependencies import get_current_company
 
 router = APIRouter(
-    prefix="/profile",
+    prefix="/company_profile",
 )
 
 
@@ -45,7 +45,7 @@ async def get_profile(
 
 
     return template.TemplateResponse(
-        "profile.html",{
+        "company_profile.html",{
             "request": request,
             "workers": workers,
             "company": company,

@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f9; /* Светлый фон из примера */
+    background-color: #f4f7f9;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,7 +45,7 @@ body {
 
 .field label {
     font-size: 14px;
-    color: #64748b; /* Приглушенный серый для подписей */
+    color: #64748b;
     font-weight: 500;
 }
 
@@ -71,9 +71,9 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Кнопка */
+
 .btn-primary {
-    background-color: #2563eb; /* Акцентный синий со скрина */
+    background-color: #2563eb;
     color: #fff;
     border: none;
     padding: 14px;

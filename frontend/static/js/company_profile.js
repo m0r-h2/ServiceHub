@@ -1,14 +1,14 @@
 let originalData = {};
 let currentTaskId = null;
 
-// Инициализация при загрузке страницы
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Активируем иконки Lucide
+
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 
-    // Отслеживаем изменения в форме для появления кнопки "Сохранить"
+
     const editForm = document.getElementById('orderEditForm');
     if (editForm) {
         editForm.addEventListener('input', function() {
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (saveBtn) saveBtn.style.display = hasChanges ? 'block' : 'none';
         });
 
-        // Обработка отправки формы (PATCH запрос)
         editForm.onsubmit = async function(e) {
             e.preventDefault();
 
@@ -63,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Слушаем клики по кнопкам "Детали" (делегирование событий)
 document.addEventListener('click', function(e) {
     const btn = e.target.closest('.open-modal-btn');
     if (btn) {
@@ -77,7 +75,6 @@ document.addEventListener('click', function(e) {
             driver: order.driver || ""
         };
 
-        // Заполнение данных в модальном окне
         document.getElementById('modalTitle').innerText = order.title || 'Заказ без названия';
         document.getElementById('modalWork').innerText = order.work || '-';
         document.getElementById('modalPrice').innerText = (order.price || 0) + ' ₽';
@@ -96,7 +93,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Функции управления окном
+
 function closeModal() {
     const modal = document.getElementById('orderModal');
     if (modal) modal.style.display = 'none';

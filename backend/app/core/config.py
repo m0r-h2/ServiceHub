@@ -6,7 +6,7 @@ import os
 import dotenv
 
 class SqlalchemyConfig(BaseModel):
-    echo: bool = True
+    echo: bool = False
 
 
 load_dotenv()

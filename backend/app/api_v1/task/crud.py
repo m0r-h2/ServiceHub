@@ -48,9 +48,3 @@ async def update_task(task: Task, task_update: TaskUpdateCompanyPartial | TaskUp
         setattr(task, name, value)
     await session.commit()
     return task
-
-# async def update_task_manual(task: Task, task_update: TaskUpdateWorking, session: AsyncSession):
-#     for name,value in task_update.model_dump(exclude_unset=True).items():
-#         setattr(task, name, value)
-#     await session.commit()
-#     return task

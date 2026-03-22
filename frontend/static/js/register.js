@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (registrationForm) {
         registrationForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Останавливаем обычную перезагрузку страницы
+            e.preventDefault();
 
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const result = await response.json();
 
-                    // Сохраняем JWT токен в память браузера (Local Storage)
+
                     if (result.access_token) {
                         localStorage.setItem('access_token', result.access_token);
                     }
 
                     alert('Регистрация успешна!');
-                    // Перенаправляем в личный кабинет
-                    window.location.href = '/profile';
+
+                    window.location.href = '/company_profile';
                 } else {
                     const error = await response.json();
                     alert('Ошибка: ' + (error.detail || 'Не удалось создать аккаунт'));
