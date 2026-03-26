@@ -92,7 +92,7 @@ async def seed_db():
                 name="Андрей Волков",
                 phone="+79100000005",
                 company_name="Быстрая доставка",
-                job_title="ООО Удачный ремонт",
+                job_title="Босс",
                 status="На выезде"
             ),
 
