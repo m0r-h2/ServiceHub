@@ -29,7 +29,7 @@ async def login(
 
     access_token = create_access_token(data={"sub": str(company.id)})
 
-    response = RedirectResponse(url="/profile/", status_code=303)
+    response = RedirectResponse(url="/company_profile/", status_code=303)
     response.set_cookie(
         key="access_token",
         value=access_token,
